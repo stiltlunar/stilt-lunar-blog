@@ -5,8 +5,9 @@ import BaseLayout from '../../layouts/BaseLayout.astro'
 export async function getStaticPaths() {
   const blogEntries = await getCollection('blog')
   const categories: string[] = []
+
   blogEntries.forEach(entry => {
-    const category = entry.id.split('/')[0]
+    const category = entry.data.category
     if (!categories.includes(category)) {
       categories.push(category)
     }
@@ -18,8 +19,18 @@ export async function getStaticPaths() {
 }
 
 const { category } = Astro.params
+
+const entries = await getCollection('blog', (entry) => {
+  return entry.data.category === category
+})
+
+console.log(entries);
+
 ---
 
 <BaseLayout>
   <h1>{category}</h1>
+  {entries.map(entry => {
+    return <p>{entry.data.title}</p>
+  })}
 </BaseLayout>
