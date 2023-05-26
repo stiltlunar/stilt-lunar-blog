@@ -1,0 +1,20 @@
+---
+import SiteSettings from '../content/settings/site-settings.json'
+
+const { title = SiteSettings.siteTitle, description = SiteSettings.siteDescription, noIndex = false } = Astro.props
+---
+
+<html lang="en">
+	<head>
+		<title>{title}</title>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="description" content={description} />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta name="generator" content={Astro.generator} />
+    {noIndex && <meta name="robots" content="noindex" />}
+	</head>
+	<body>
+    <slot />
+  </body>
+</html>
